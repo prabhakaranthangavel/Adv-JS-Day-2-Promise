@@ -1,0 +1,409 @@
+Contents:
+
+1.What is a Promise?
+2.Promise States
+3.Promise Properties or Keys - .then & .catch methods
+4.Promise in function
+5.Promise chain
+6.Promise.all() 
+7.Promise.allSettled 
+
+*************************************************************************************************************************
+
+1.Promise
+
+what is Promise?
+
+===>Promise means சத்தியம்.
+    compiler ரிடம் சத்தியமாக செய்கிறேன் என்று அர்த்தம். 
+    
+===>To overcome callback hell sceneario.
+    Callback Hell ஐ overcome செய்ய வந்தது தான் Promise(ES6) ஆகும்.
+
+===>It holds the result of async operation.
+    Async operation உடைய result ஐ தான் Promise என்கிறோம்.
+
+===>Promise ஆனது ஒரு object ஆக இருக்கும்.
+   அதாவது வரக்கூடிய output ஆனது object ஆக தான் வரும்.
+
+===>Syntax:
+
+    var/let/const variablename = new Promise((resolve,reject)=>{})
+
+    resolve = Success
+    reject  = Failure
+
+*************************************************************************************************************************
+
+2.Promise States
+
+===>Promise ல் மூன்று state உள்ளன.
+    (1)Pending      (2)Resolved or Fulfill     (3)Rejected
+
+===>கொடுக்கப்பட்ட அல்லது வரக்கூடிய input அனைத்தும் Pending ல் தான் இருக்கும்.
+    இதனை Pending states என்போம்.
+
+===>கொடுக்கப்பட்ட அல்லது வரக்கூடிய input ஆனது TRUE ஆக இருந்தால் Promise Resolved என்போம்.
+
+===>கொடுக்கப்பட்ட அல்லது வரக்கூடிய input ஆனது FALSE ஆக இருந்தால் Promise Rejected என்போம்.
+
+===>Syntax:
+
+    var/let/const variablename = new Promise((resolve,reject)=>{})
+
+===>Example 1: Promise in states
+    
+    const a = new Promise((resolve,reject) => {
+        if(5 > 1)
+        {
+            resolve("Promise is Resolved/Fullfilled");
+        }
+        else
+        {
+            reject("Promise is Rejected");
+        }
+    })
+    console.log(a);
+
+    o/p:Refer to Screenshot
+
+    Promise {<fulfilled>: 'Promise is Resolved/Fullfilled'}
+    [[Prototype]] :  Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: "Promise is Resolved/Fullfilled"
+
+
+
+===>Example 2: Promise in states with DOM prompt Method
+               Odd or even Number
+
+    const b = parseInt(prompt("Enter the number"));
+    const a = new Promise((resolve,reject) => {
+        if(b%2==0)
+        {
+            resolve("Even Number")
+        }
+        else
+        {
+            reject("Odd Number")
+        }
+    })
+    console.log(a);
+
+    o/p:user ன் input ஐ பொறுத்து output மாறுபடும்.ஏனென்றால் prompt method ஐ பயன்படுத்துகிறோம்.
+        ஒருவேளை input ஆனது string ஆக இருந்தால் என்ன செய்வது அதனால் parseInt ஐ பயன்படுத்துகிறோம்.
+
+
+    i/p:678
+
+    Promise {<fulfilled>: 'Even Number'}
+    [[Prototype]] :  Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: "Even Number"
+
+
+    i/p:6789
+
+    Promise {<fulfilled>: 'Odd Number'}
+    [[Prototype]] :  Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: "Odd Number"
+
+
+
+===>Session Task: 18 > eligible to vote; 18< not eligible to vote
+
+    const age=parseInt(prompt("enter your age"))
+    const eligible=new Promise((resolve,reject) => {
+        if(age > 18)
+        {
+            resolve("You are eligible");
+        }
+        else
+        {
+            reject("You are not eligible");
+        }
+    })
+    console.log(eligible);
+
+
+    i/p:35
+
+    Promise {<fulfilled>: 'You are eligible'}
+    [[Prototype]] :  Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: "You are eligible"
+
+
+    i/p:15 
+
+    Promise {<fulfilled>: 'You are not eligible'}
+    [[Prototype]] :  Promise
+    [[PromiseState]]: "fulfilled"
+    [[PromiseResult]]: "You are not eligible"
+
+*************************************************************************************************************************
+
+3.Promise Properties or Keys - .then & .catch methods
+
+===>Promise ல் பயன்படுத்தும் இரண்டு keywords அல்லது Properties
+    (1) .then        (2) .catch 
+
+===>.then  ஐ Resolved & Rejected ஆகிய இரண்டு States களில் உள்ள data ஐ பெறுவதற்கு பயன்படுத்துகிறோம்.
+===>.catch ஐ Uncaught SyntaxError என்று வரும் Error யும் console ல் வாங்குவதற்கு பயன்படுத்துகிறோம்.
+
+===>Summary 
+   
+    .then ஆனது data ஐ பெறுவதற்கு
+    .catch ஆனது Error ஐ Handle செய்வதற்கு
+
+===>.then & .catch ஐ பயன்படுத்துவதன் மூலம் output ஆனது object ஆக வராமல் நேரடியாக console ல் என்ன கொடுத்துள்ளமோ(result ன் value ஐ) அதை print செய்ய முடியும்.
+
+===>Promise ஐ எந்த variablename ல் declare செய்துள்ளமோ அந்த name க்கு  தான் .then & .catch என்ற key ஐ பயன்படுத்த வேண்டும்.
+    Example: const eligible=new Promise((resolve,reject) => {
+                . 
+                .
+                .
+                .
+                .
+                .
+                })
+                eligible.then((data)=>console.log(data)).catch((error)=>console.log(error)); 
+
+                Not A Preferred Method just understanding:
+                eligible.then((data)  =>console.log(data))
+                eligible.catch((error)=>console.log(error)); 
+
+
+===>Example : 18 > eligible to vote; 18< not eligible to vote
+              .then & .catch method
+
+    const age=parseInt(prompt("enter your age"))
+    const eligible=new Promise((resolve,reject) => {
+        if(age > 18)
+        {
+            resolve("You are eligible");
+        }
+        else
+        {
+            reject("You are not eligible");
+        }
+    })
+    eligible.then((data)=>console.log(data)).catch((error)=>console.log(error)); 
+
+    Not A Preferred Method just understanding:
+    eligible.then((data)  =>console.log(data));
+            .catch((error)=>console.log(error));
+
+
+    i/p:35    //You are eligible
+    i/p:15    //You are not eligible
+
+*************************************************************************************************************************
+
+4.Promise in function
+
+===>function returns Promises.
+    function ஆனது Promise ஐ return செய்யும்.
+
+===>For a Promise if there are both resolve or reject then it execute in the order.
+    அதாவது ஒரு Promise ல் உள்ள resolve or reject என்ற states ஐ  இதில் எதை முதலில் கொடுக்கிறோமோ அதுதான் execute ஆகும்.
+    மேலும் ஏதோ ஒன்றுதான் execute ஆகும். i.e resolve or reject
+
+===>Example 1:
+
+    function foo(num) {
+        return new Promise((resolve, reject) => {
+            resolve("this is resolved"+" "+num);
+            reject("this is rejected"+" "+num);
+        });
+    }
+    foo(12).then((data)=>console.log(data)).catch((error)=>console.log(error))
+
+    o/p:
+    this is resolved 12 என்று மட்டும் வரும்.
+
+===>Example 2:
+
+    function foo(num) {
+        return new Promise((resolve, reject) => {
+            reject("this is rejected"+" "+num);
+            resolve("this is resolved"+" "+num);
+        });
+    }
+    foo(25).then((data)=>console.log(data)).catch((error)=>console.log(error))
+
+    o/p:
+    this is rejected 25 என்று மட்டும் வரும்.
+
+*************************************************************************************************************************
+
+5.Promise chain
+
+===>The result of first Promise is the input of second Promise.
+    The second Promise is the input of third Promise.
+    அதாவது முதலாவது Promise ஐ சார்ந்துதான் இரண்டாவது Promise இருக்கும்.
+    இரண்டாவது Promise ஐ சார்ந்துதான் மூன்றாவது Promise இருக்கும்.
+    அதாவது இப்படியே நீண்டு போய்க்கொண்டே இருக்கும்.
+
+===>இவ்வாறு தொடர்ந்து ஒரு சங்கிலித்தொடர் போன்று இருப்பதால்தான் "chaining of Promise" என்கிறோம்.
+
+===>சார்ந்து இருப்பதால் "Dependent Operation" என்று மற்றொரு பெயரும் உண்டு.
+
+===>Example:
+
+    function mul(num) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => resolve(num * 2), 2000);
+        });
+    }
+    mul(5).then((data)=>{
+        console.log(data); //5*2 = 10
+        return mul(data) //return mul(10)
+    }).then((data1)=>{
+        console.log(data1); //10*2 = 20
+        return mul(data1) //return mul(20)
+    }).then((data2)=>console.log(data2)).catch((error)=>console.log(error)) //20*2 = 40(data2)
+
+    o/p:
+    10   20   40
+
+*************************************************************************************************************************
+
+6.Promise.all()
+
+===>when you have multiple Promises.
+    எண்ணற்ற promise கள் இருந்தால்தான் பயன்படுத்த உதவி செய்கிறது.
+
+===>It will wait for all the Promise are getting resolved.
+    எல்லா promise ம் resolve ஆகும் வரைக்கும் wait செய்யும்.
+    எடுத்துக்காட்டாக மூன்று Promise உள்ளது.
+    முதல் Promise,Resolved ஆகிவிட்டது.
+    இரண்டாவது Promise,Resolved ஆகிக் கொண்டிருக்கிறது என்று வைத்துக் கொள்வோம்.
+    இருந்தாலும்
+    மூன்றாவது Promise Resolved ஆகும் வரை wait செய்யும்.
+    மூன்றாவது Promise எப்பொழுது Resolved ஆகிறதோ அப்பொழுதுதான் மற்ற Promise களின் output ஐ print செய்யும் அல்லது work ஆகும்.
+
+===>it returns an array of values
+    output ஆனது Array ஆக வரும்.
+
+===>Drawback:
+
+    =>If one Promise is rejected it won't go fo other.
+    
+    =>It will display the information of the rejected Promise.
+      என்னிடம் 10 Promise உள்ளது. 
+      எல்லா Promise ம் resolved இருந்தால் மட்டுமே output "Resolved" என்று வரும்.
+      இதில் ஏதேனும் ஒன்று reject ஆக இருந்தாலும் எல்லாமே Rejected ஆக மாறிவிடும்.
+      அத்தோடு code ம் stop ஆகிவிடும்.இது மிகப்பெரிய disadvantage ஆகும்.
+      Rejected உள்ள data ஐ மட்டும் print செய்யும்.
+
+===>Example:
+
+    const p1 = new Promise((resolve, reject) => {
+        if (true)      ***//if (false)***
+        {
+            setTimeout(() => resolve("P1 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P1 is Rejected"), 4000);
+        }
+    });
+
+    const p2 = new Promise((resolve, reject) => {
+        if (true) 
+        {
+            setTimeout(() => resolve("P2 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P2 is Rejected"), 4000);
+        }
+    });
+
+    const p3 = new Promise((resolve, reject) => {
+        if (true) 
+        {
+            setTimeout(() => resolve("P3 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P3 is Rejected"), 4000);
+        }
+    });
+
+    Promise.all([p1, p2, p3])
+    .then((data) => console.log(data)).catch((error) => console.log(error));
+
+    o/p:
+
+    மூன்றும் resolve stateஆக இருந்தால் ===> (3) ['P1 is Resolved', 'P2 is Resolved', 'P3 is Resolved'] 
+
+    ஏதேனும் ஒன்று reject state ஆக இருந்தாலும்===>  P1 is Rejected
+    அதனுடன் code ஆனது stop ஆகிவிடும்
+
+*************************************************************************************************************************
+
+7.Promise.allSettled 
+
+===>Promise.all ஐ கொஞ்சம் overcome வந்ததுதான் Promise.allSettled ஆகும்.
+
+===>when you want know the state of each of promise.
+    ஒரு Promise ஆனது எந்த State ல் உள்ளது என்பதை தெளிவாக காணலாம்.
+    அதாவது resolved ஆனாலும் அல்லது reject ஆனாலும் அதனுடைய value மற்றும் states இவை அனைத்தையும் காணலாம்.
+
+===>It is more useful when you dont have Dependent operation.
+    Promise.all & Promise.allSettled ஐ Promise chaining ல் பயன்படுத்த மாட்டோம்.
+    ஏனென்றால் Promise chain ஆனது ஒரு Promise ஐ சார்ந்துதான் இருக்கும்.
+
+===>output will be a promise object.
+    output ஆனது Object ஆக வரும்.
+
+===>Example:
+
+    const p1 = new Promise((resolve, reject) => {
+        if (true)      ***//if (false)***
+        {
+            setTimeout(() => resolve("P1 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P1 is Rejected"), 4000);
+        }
+    });
+
+    const p2 = new Promise((resolve, reject) => {
+        if (true) 
+        {
+            setTimeout(() => resolve("P2 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P2 is Rejected"), 4000);
+        }
+    });
+
+    const p3 = new Promise((resolve, reject) => {
+        if (true) 
+        {
+            setTimeout(() => resolve("P3 is Resolved"), 2000);
+        } 
+        else 
+        {
+            setTimeout(() => reject("P3 is Rejected"), 4000);
+        }
+    });
+
+    const res = Promise.allSettled([p1,p2,p3]).then((data)=>data.forEach((res)=>console.log(res)))
+
+    o/p:
+
+    {status: 'rejected', reason: 'P1 is rejected'}
+    {status: 'fulfilled', value: 'P2 is resolved'}
+    {status: 'fulfilled', value: 'P3 is resolved'}
+    
+           ===>இந்த program ல் forEach Method ஐ பயன்படுத்தி values ஐ மட்டும் எடுத்து தனித்தனியாக print செய்கிறோம்.
+    ===>forEach ஐ பயன்படுத்துவதால் const res என்ற variablename கொடுத்து declare செய்கிறோம்.
+
+*************************************************************************************************************************
